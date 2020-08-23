@@ -1,0 +1,60 @@
+# Code that reads .csv dictionary and implements repetitive testing.
+
+import pandas as pd
+import random
+
+ordbok = pd.read_csv("ordbok.csv")
+
+#load ordbok
+test_e = ordbok["test_e"].dropna().tolist()
+test_s = ordbok["test_s"].dropna().tolist()
+test_number_done = []
+
+new = input("Press 'Enter' for new word or 'n' to exit! Tryck 'Enter' för nytt ord eller 'n' för sluta!")
+
+if new != "n":
+	
+	while len(test_e) != len(test_number_done):
+	
+		# randomize test language and test word (using test_number)
+		test_language = random.randint(0,1) # 0 engelska, 1 svenska
+		test_number = random.randint(0,len(test_e)-1)
+
+		if test_number in test_number_done: continue
+
+		else:
+			test_number_done.append(test_number)
+		
+			if test_language == 0:
+				print("engelska: %s" % (test_e[test_number]))
+				input("Show answer?")
+
+				print("svenska: %s" % (test_s[test_number]))
+				retry = input("If your answer was wrong, press 'y'. To exit, press 'n'.")
+				print("\n")
+				
+				if retry == "y":
+					print("Ok try again!")
+					test_number_done.remove(test_number)
+
+				elif retry == "n": break
+
+				else: continue
+
+			if test_language == 1:
+				print("svenska: %s" % (test_s[test_number]))
+				input("Show answer?")
+
+				print("engelska: %s" % (test_e[test_number]))
+				retry = input("If the answer was wrong, press 'y'. To exit, press'n'.")
+				print("\n")
+				
+				if retry == "y":
+					print("Ok try again!")
+					test_number_done.remove(test_number)
+
+				elif retry == "n": break
+
+				else: continue
+
+print("Hey då!")
